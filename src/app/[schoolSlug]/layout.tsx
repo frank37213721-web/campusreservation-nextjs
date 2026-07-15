@@ -18,9 +18,9 @@ export default async function SchoolLayout({
   const [profile, lang] = await Promise.all([getCurrentProfile(), getLang()]);
 
   return (
-    <div className="flex min-h-screen w-full">
+    <div className="flex min-h-screen w-full flex-col md:flex-row">
       <Sidebar schoolSlug={schoolSlug} schoolName={school.name} lang={lang} profile={profile} />
-      <main className="flex-1 overflow-x-hidden">{children}</main>
+      <main className="min-w-0 flex-1 overflow-x-hidden">{children}</main>
     </div>
   );
 }

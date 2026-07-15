@@ -33,7 +33,7 @@ export function Sidebar({
   }
 
   return (
-    <aside className="w-[260px] shrink-0 border-r border-sidebar-border bg-sidebar">
+    <aside className="w-full shrink-0 border-b border-sidebar-border bg-sidebar md:w-[260px] md:border-r md:border-b-0">
       <div className="px-5 pt-10 pb-5">
         <div className="muji-label mb-3">CAMPUS</div>
         <div className="text-[1.1rem] font-medium leading-snug tracking-wide text-foreground">
