@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/db";
 import { classroomAdmins, profiles } from "@/db/schema";
-import { stackServerApp } from "@/stack/server";
+import { auth } from "@/lib/neon-auth";
 
 export type Role = "User" | "ClassAdmin" | "SiteAdmin";
 
@@ -17,13 +17,13 @@ export type CurrentProfile = {
 
 /** Returns the signed-in user's app profile, or null if not signed in / no profile row yet. */
 export async function getCurrentProfile(): Promise<CurrentProfile | null> {
-  const user = await stackServerApp.getUser();
-  if (!user) return null;
+  const { data } = await auth.getSession();
+  if (!data?.user) return null;
 
   const [profile] = await db
     .select()
     .from(profiles)
-    .where(eq(profiles.id, user.id))
+    .where(eq(profiles.id, data.user.id))
     .limit(1);
 
   return profile ?? null;

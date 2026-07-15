@@ -2,26 +2,13 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { useStackApp } from "@stackframe/stack";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { registerUser } from "@/actions/profiles";
-
-function loginErrorMessage(errorCode: string | undefined, fallback: string) {
-  switch (errorCode) {
-    case "EMAIL_PASSWORD_MISMATCH":
-      return "電子郵件或密碼錯誤，請重新確認。";
-    case "USER_EMAIL_ALREADY_EXISTS":
-      return "此信箱已經註冊過了，請直接點選上方「登入」頁籤。";
-    default:
-      return fallback;
-  }
-}
+import { loginUser, registerUser } from "@/actions/profiles";
 
 export function LoginForm({ schoolSlug }: { schoolSlug: string }) {
-  const app = useStackApp();
   const router = useRouter();
 
   const [logEmail, setLogEmail] = useState("");
@@ -40,15 +27,9 @@ export function LoginForm({ schoolSlug }: { schoolSlug: string }) {
     e.preventDefault();
     setLogError(null);
     startLogin(async () => {
-      const result = await app.signInWithCredential({
-        email: logEmail,
-        password: logPwd,
-        noRedirect: true,
-      });
-      if (result.status === "error") {
-        const code = (result.error as { errorCode?: string })?.errorCode;
-        const message = (result.error as { message?: string })?.message ?? "登入失敗，請稍後再試。";
-        setLogError(loginErrorMessage(code, message));
+      const result = await loginUser({ email: logEmail, password: logPwd });
+      if (!result.ok) {
+        setLogError(result.error);
         return;
       }
       router.push(`/${schoolSlug}/dashboard`);
@@ -76,7 +57,7 @@ export function LoginForm({ schoolSlug }: { schoolSlug: string }) {
       }
       setRegMessage({
         type: "success",
-        text: "註冊成功！請至您的信箱點擊驗證連結後即可登入。若沒看到信件，請檢查垃圾信箱。",
+        text: "註冊成功！您現在可以直接登入，或依系統設定完成信箱驗證。",
       });
       setRegEmail("");
       setRegPwd("");
