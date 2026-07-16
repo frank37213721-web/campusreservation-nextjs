@@ -1,5 +1,6 @@
 "use client";
 
+import { Building2, ClipboardList, School, User } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -46,7 +47,11 @@ export function DayDetailDialog({
             {rows.map((r) => (
               <div key={r.id} className="py-3 text-sm">
                 <div className="mb-1 flex items-center gap-2">
-                  <span>{r.status === "APPROVED" ? "🟢" : "🟡"}</span>
+                  <span
+                    className={`size-1.5 rounded-full ${
+                      r.status === "APPROVED" ? "bg-status-approved" : "bg-status-pending"
+                    }`}
+                  />
                   <span className="font-medium">
                     {shortTime(r.startTime)} - {shortTime(r.endTime)}
                   </span>
@@ -54,16 +59,28 @@ export function DayDetailDialog({
                     {r.status === "APPROVED" ? "已核准" : "審核中"}
                   </span>
                 </div>
-                <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-muted-foreground">
-                  <span>🏫 教室</span>
+                <div className="grid grid-cols-[auto_1fr] items-center gap-x-3 gap-y-1.5 text-muted-foreground">
+                  <span className="flex items-center gap-1.5">
+                    <School className="size-3.5" />
+                    教室
+                  </span>
                   <span>{r.classroomName}</span>
                   {showPii && (
                     <>
-                      <span>👤 預約者</span>
+                      <span className="flex items-center gap-1.5">
+                        <User className="size-3.5" />
+                        預約者
+                      </span>
                       <span>{r.userName || "—"}</span>
-                      <span>🏢 處室或科別</span>
+                      <span className="flex items-center gap-1.5">
+                        <Building2 className="size-3.5" />
+                        處室或科別
+                      </span>
                       <span>{r.userDept || "—"}</span>
-                      <span>📋 用途</span>
+                      <span className="flex items-center gap-1.5">
+                        <ClipboardList className="size-3.5" />
+                        用途
+                      </span>
                       <span>{r.purpose || "—"}</span>
                     </>
                   )}

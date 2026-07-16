@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { Settings } from "lucide-react";
 import { getSchoolBySlug } from "@/db/queries/schools";
 import { getClassroomAdminMap, getClassroomsForSchool } from "@/db/queries/classrooms";
 import { getAllUsers } from "@/db/queries/profiles";
@@ -29,7 +30,10 @@ export default async function SiteAdminPage({
 
   return (
     <div className="mx-auto max-w-3xl px-8 py-10">
-      <h1 className="mb-6 text-xl font-medium tracking-wide">⚙️ 網站系統管理</h1>
+      <h1 className="mb-6 flex items-center gap-2 page-heading">
+        <Settings className="size-6 text-primary" />
+        網站系統管理
+      </h1>
       <SiteAdminView
         schoolSlug={schoolSlug}
         schoolId={school.id}

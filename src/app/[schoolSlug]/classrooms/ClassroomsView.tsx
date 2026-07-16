@@ -46,22 +46,26 @@ export function ClassroomsView({
         {myClassrooms.length === 0 ? (
           <p className="text-sm text-muted-foreground">您目前沒有管理的教室。</p>
         ) : (
-          <EditClassroomForm
-            schoolSlug={schoolSlug}
-            classrooms={myClassrooms}
-            onSaved={() => router.refresh()}
-          />
+          <div className="card-shadow max-w-md rounded-lg border border-border bg-card p-8">
+            <EditClassroomForm
+              schoolSlug={schoolSlug}
+              classrooms={myClassrooms}
+              onSaved={() => router.refresh()}
+            />
+          </div>
         )}
       </TabsContent>
 
       <TabsContent value="add" className="pt-4">
-        <AddClassroomForm
-          schoolSlug={schoolSlug}
-          schoolId={schoolId}
-          isSiteAdmin={isSiteAdmin}
-          classAdmins={classAdmins}
-          onCreated={() => router.refresh()}
-        />
+        <div className="card-shadow max-w-md rounded-lg border border-border bg-card p-8">
+          <AddClassroomForm
+            schoolSlug={schoolSlug}
+            schoolId={schoolId}
+            isSiteAdmin={isSiteAdmin}
+            classAdmins={classAdmins}
+            onCreated={() => router.refresh()}
+          />
+        </div>
       </TabsContent>
     </Tabs>
   );
@@ -247,7 +251,7 @@ function AddClassroomForm({
       )}
 
       {message && (
-        <p className={message.type === "success" ? "text-sm text-emerald-700" : "text-sm text-destructive"}>
+        <p className={message.type === "success" ? "text-sm text-status-approved" : "text-sm text-destructive"}>
           {message.text}
         </p>
       )}

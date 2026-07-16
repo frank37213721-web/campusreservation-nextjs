@@ -135,14 +135,16 @@ export function BulkCalendar({
         </Select>
       </div>
 
-      <ReservationCalendar
-        events={events}
-        lang="zh"
-        selectable
-        onDateClick={handleDateClick}
-        onSelect={handleSelect}
-        onRangeChange={fetchRange}
-      />
+      <div className="card-shadow rounded-lg border border-border bg-card p-4">
+        <ReservationCalendar
+          events={events}
+          lang="zh"
+          selectable
+          onDateClick={handleDateClick}
+          onSelect={handleSelect}
+          onRangeChange={fetchRange}
+        />
+      </div>
 
       <MultiDayDialog
         schoolSlug={schoolSlug}

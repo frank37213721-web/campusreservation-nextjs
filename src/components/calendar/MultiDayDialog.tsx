@@ -104,7 +104,7 @@ export function MultiDayDialog({
         </label>
 
         {message && (
-          <p className={message.type === "success" ? "text-sm text-emerald-700" : "text-sm text-destructive"}>
+          <p className={message.type === "success" ? "text-sm text-status-approved" : "text-sm text-destructive"}>
             {message.text}
           </p>
         )}

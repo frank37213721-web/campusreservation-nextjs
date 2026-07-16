@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { LayoutDashboard } from "lucide-react";
 import { getSchoolBySlug } from "@/db/queries/schools";
 import { getClassroomsForSchool } from "@/db/queries/classrooms";
 import { getUserReservations } from "@/db/queries/reservations";
@@ -22,7 +23,10 @@ export default async function DashboardPage({
 
   return (
     <div className="mx-auto max-w-5xl px-8 py-10">
-      <h1 className="mb-2 text-xl font-medium tracking-wide">📅 一般預約</h1>
+      <h1 className="mb-2 flex items-center gap-2 page-heading">
+        <LayoutDashboard className="size-6 text-primary" />
+        一般預約
+      </h1>
       <p className="mb-6 text-sm text-muted-foreground">
         您可以提前預約 14 天內的空間。點選月曆的日期空白處進行新預約；點選已有的預約可檢視或修改。
       </p>

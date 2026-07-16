@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { CalendarRange } from "lucide-react";
 import { getSchoolBySlug } from "@/db/queries/schools";
 import { classroomIdsManagedBy, getClassroomsForSchool } from "@/db/queries/classrooms";
 import { requireRole } from "@/lib/auth";
@@ -24,7 +25,10 @@ export default async function BulkReservationPage({
 
   return (
     <div className="mx-auto max-w-5xl px-8 py-10">
-      <h1 className="mb-2 text-xl font-medium tracking-wide">📚 大量預約</h1>
+      <h1 className="mb-2 flex items-center gap-2 page-heading">
+        <CalendarRange className="size-6 text-primary" />
+        大量預約
+      </h1>
       <p className="mb-6 text-sm text-muted-foreground">
         您可以透過在月曆上拖曳選擇多個日期，或是直接填寫表單來建立大量預約。
       </p>

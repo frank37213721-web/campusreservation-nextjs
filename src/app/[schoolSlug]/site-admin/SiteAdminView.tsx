@@ -50,7 +50,7 @@ export function SiteAdminView({
         <TabsTrigger value="classrooms">教室與管理員設定</TabsTrigger>
       </TabsList>
 
-      <TabsContent value="users" className="flex flex-col gap-3 pt-4">
+      <TabsContent value="users" className="flex flex-col gap-2 pt-4">
         {users.map((u) => (
           <UserRoleRow key={u.id} schoolSlug={schoolSlug} user={u} onSaved={() => router.refresh()} />
         ))}
@@ -101,11 +101,11 @@ function UserRoleRow({
   }
 
   return (
-    <details className="border border-border p-3">
-      <summary className="cursor-pointer text-sm">
+    <details className="overflow-hidden rounded-lg border border-border bg-card">
+      <summary className="cursor-pointer list-none px-4 py-3 text-sm font-medium text-foreground transition-colors hover:bg-muted [&::-webkit-details-marker]:hidden">
         {user.fullName} ({user.email}) — {user.department}
       </summary>
-      <div className="mt-3 flex items-end gap-3">
+      <div className="flex items-end gap-3 px-4 pb-4">
         <div className="w-48">
           <Label className="mb-2 block">角色</Label>
           <Select value={role} onValueChange={(v) => v && setRole(v as (typeof ROLES)[number])}>
@@ -167,11 +167,11 @@ function ClassroomAdminRow({
   }
 
   return (
-    <details className="border border-border p-3">
-      <summary className="cursor-pointer text-sm">
+    <details className="overflow-hidden rounded-lg border border-border bg-card">
+      <summary className="cursor-pointer list-none px-4 py-3 text-sm font-medium text-foreground transition-colors hover:bg-muted [&::-webkit-details-marker]:hidden">
         {classroom.name} ({classroom.location}) — 管理員：{adminNames || "尚未指派"}
       </summary>
-      <div className="mt-3 flex flex-col gap-2">
+      <div className="flex flex-col gap-2 px-4 pb-4">
         {classAdmins.length === 0 ? (
           <p className="text-sm text-muted-foreground">目前沒有 ClassAdmin/SiteAdmin 使用者。</p>
         ) : (
@@ -234,9 +234,11 @@ function NewClassroomForm({
   }
 
   return (
-    <details className="border border-border p-3">
-      <summary className="cursor-pointer muji-label">建立新教室</summary>
-      <form onSubmit={handleSubmit} className="mt-4 flex max-w-md flex-col gap-4">
+    <details className="overflow-hidden rounded-lg border border-border bg-card">
+      <summary className="cursor-pointer list-none px-4 py-3 muji-label transition-colors hover:bg-muted [&::-webkit-details-marker]:hidden">
+        建立新教室
+      </summary>
+      <form onSubmit={handleSubmit} className="flex max-w-md flex-col gap-4 px-4 pb-4">
         <Input placeholder="教室名稱" value={name} onChange={(e) => setName(e.target.value)} />
         <Input placeholder="位置" value={location} onChange={(e) => setLocation(e.target.value)} />
         <Textarea placeholder="描述" value={description} onChange={(e) => setDescription(e.target.value)} />

@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { Info } from "lucide-react";
 import { getSchoolBySlug } from "@/db/queries/schools";
 import { classroomIdsManagedBy, getClassroomsForSchool } from "@/db/queries/classrooms";
 import { getClassAdminsAndAbove } from "@/db/queries/profiles";
@@ -27,7 +28,10 @@ export default async function ClassroomsPage({
 
   return (
     <div className="mx-auto max-w-3xl px-8 py-10">
-      <h1 className="mb-2 text-xl font-medium tracking-wide">ℹ️ 教室資訊</h1>
+      <h1 className="mb-2 flex items-center gap-2 page-heading">
+        <Info className="size-6 text-primary" />
+        教室資訊
+      </h1>
       <p className="mb-6 text-sm text-muted-foreground">管理教室的詳細資訊、描述與門禁方式。</p>
 
       <ClassroomsView

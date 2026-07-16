@@ -147,7 +147,7 @@ export function LoginForm({ schoolSlug }: { schoolSlug: string }) {
           {regMessage && (
             <p
               className={
-                regMessage.type === "success" ? "text-sm text-emerald-700" : "text-sm text-destructive"
+                regMessage.type === "success" ? "text-sm text-status-approved" : "text-sm text-destructive"
               }
             >
               {regMessage.text}

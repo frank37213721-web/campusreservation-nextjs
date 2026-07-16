@@ -41,51 +41,53 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
+  --radius-sm: calc(var(--radius) * 0.45);
+  --radius-md: calc(var(--radius) * 0.65);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-xl: calc(var(--radius) * 1.3);
+  --radius-2xl: calc(var(--radius) * 1.65);
+  --radius-3xl: calc(var(--radius) * 2);
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
 :root {
-  /* MUJI palette, ported 1:1 from the old Streamlit app's style.py */
-  --background: #f7f3f0;
-  --foreground: #333333;
+  /* Notion-inspired editorial system: purple primary CTA, white canvas
+     cards on a neutral surface, hairline borders. Shared with school-match. */
+  --background: #f7f7fb;
+  --foreground: #16192a;
   --card: #ffffff;
-  --card-foreground: #333333;
+  --card-foreground: #16192a;
   --popover: #ffffff;
-  --popover-foreground: #333333;
-  --primary: #333333;
-  --primary-foreground: #f7f3f0;
-  --secondary: #f2efed;
-  --secondary-foreground: #555555;
-  --muted: #f2efed;
-  --muted-foreground: #8c8c8c;
-  --accent: #7f0019;
-  --accent-foreground: #ffffff;
-  --destructive: #b3261e;
-  --border: #e6e2e0;
-  --input: #d9d9d9;
-  --ring: #8c8c8c;
-  --chart-1: #ff4b4b;
-  --chart-2: #0068c9;
-  --chart-3: #83c9ff;
-  --chart-4: #29b09d;
-  --chart-5: #7d44cf;
-  --status-pending: #ffc107;
-  --status-approved: #28a745;
-  --radius: 0px;
-  --sidebar: #f2efed;
-  --sidebar-foreground: #555555;
-  --sidebar-primary: #333333;
-  --sidebar-primary-foreground: #f7f3f0;
-  --sidebar-accent: #e8e4e1;
-  --sidebar-accent-foreground: #7f0019;
-  --sidebar-border: #e6e2e0;
-  --sidebar-ring: #8c8c8c;
+  --popover-foreground: #16192a;
+  --primary: #5645d4;
+  --primary-foreground: #ffffff;
+  --primary-hover: #4534b3;
+  --secondary: #eeecfb;
+  --secondary-foreground: #3a2a99;
+  --muted: #f2f2f6;
+  --muted-foreground: #66697a;
+  --accent: #eeecfb;
+  --accent-foreground: #3a2a99;
+  --destructive: #e03131;
+  --border: #e3e3ea;
+  --input: #dcdce6;
+  --ring: #5645d4;
+  --chart-1: #5645d4;
+  --chart-2: #0075de;
+  --chart-3: #2a9d99;
+  --chart-4: #dd5b00;
+  --chart-5: #a4a097;
+  --status-pending: #dd5b00;
+  --status-approved: #1aae39;
+  --radius: 0.75rem;
+  --sidebar: #fafaf9;
+  --sidebar-foreground: #16192a;
+  --sidebar-primary: #5645d4;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #eeecfb;
+  --sidebar-accent-foreground: #3a2a99;
+  --sidebar-border: #e3e3ea;
+  --sidebar-ring: #5645d4;
 }
 
 .dark {
@@ -135,17 +137,36 @@
 }
 
 @layer components {
-  /* Uppercase, letter-spaced micro-label used for section headers and nav group titles */
-  .muji-label {
-    @apply text-[0.7rem] uppercase tracking-[0.15rem] text-muted-foreground;
+  /* Elevation scale, shared with school-match. */
+  .shadow-elevation-1 {
+    box-shadow: 0 1px 2px rgba(15, 15, 15, 0.04);
+  }
+  .card-shadow {
+    box-shadow:
+      0 1px 2px rgba(15, 15, 15, 0.04),
+      0 4px 12px rgba(15, 15, 15, 0.06);
+  }
+  .shadow-elevation-3 {
+    box-shadow: 0 24px 48px -8px rgba(15, 15, 15, 0.18);
   }
 
-  /* Large ghost block button used on the school-select landing page */
+  .page-heading {
+    @apply text-2xl font-semibold tracking-tight text-foreground;
+  }
+
+  /* Uppercase, letter-spaced micro-label used for section headers and nav group titles */
+  .muji-label {
+    @apply text-[0.7rem] font-semibold uppercase tracking-[0.15rem] text-muted-foreground;
+  }
+
+  /* Large card-style button used on the school-select landing page */
   .muji-block-button {
-    @apply w-full border border-input bg-transparent px-5 py-8 text-[1.05rem] font-normal tracking-wide text-secondary-foreground transition-colors duration-300;
+    @apply w-full rounded-lg border border-border bg-card px-5 py-8 text-[1.05rem] font-medium tracking-tight text-foreground transition-all duration-200;
+    box-shadow: 0 1px 2px rgba(15, 15, 15, 0.04);
   }
   .muji-block-button:hover {
-    @apply border-muted-foreground bg-secondary text-accent;
+    @apply border-primary/40 bg-secondary text-primary;
+    box-shadow: 0 24px 48px -8px rgba(15, 15, 15, 0.18);
   }
 
   .muji-calendar {
@@ -166,17 +187,21 @@
   }
   .muji-calendar .fc-toolbar-title {
     font-size: 1.05rem !important;
-    font-weight: 500;
-    letter-spacing: 0.05rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
   .muji-calendar .fc-button {
-    border-radius: 0 !important;
-    text-transform: uppercase;
-    font-size: 0.75rem !important;
+    border-radius: var(--radius-md) !important;
+    text-transform: none;
+    font-size: 0.8rem !important;
     box-shadow: none !important;
   }
   .muji-calendar .fc-event {
     border: none;
+    border-radius: 4px;
     font-size: 0.75rem;
+  }
+  .muji-calendar .fc-daygrid-day-frame {
+    border-radius: var(--radius-sm);
   }
 }

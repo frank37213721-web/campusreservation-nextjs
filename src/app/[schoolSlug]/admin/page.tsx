@@ -1,10 +1,12 @@
 import { notFound } from "next/navigation";
+import { Check, ClipboardCheck, Inbox, X } from "lucide-react";
 import { getSchoolBySlug } from "@/db/queries/schools";
 import { classroomIdsManagedBy } from "@/db/queries/classrooms";
 import { getActionedReservations, getPendingReservations } from "@/db/queries/reservations";
 import { requireRole } from "@/lib/auth";
 import { setReservationStatus } from "@/actions/reservations";
 import { shortTime } from "@/lib/dates";
+import { Button } from "@/components/ui/button";
 
 export default async function AdminDashboardPage({
   params,
@@ -24,23 +26,32 @@ export default async function AdminDashboardPage({
     getActionedReservations(school.id, classroomIds),
   ]);
 
-  const statusLabel: Record<string, string> = {
-    APPROVED: "🟢",
-    REJECTED: "🔴",
-    CANCELLED: "🔴",
+  const statusDotClass: Record<string, string> = {
+    APPROVED: "bg-status-approved",
+    REJECTED: "bg-destructive",
+    CANCELLED: "bg-muted-foreground",
   };
 
   return (
     <div className="mx-auto max-w-4xl px-8 py-10">
-      <h1 className="mb-2 text-xl font-medium tracking-wide">📋 管理員面板</h1>
+      <h1 className="mb-2 flex items-center gap-2 page-heading">
+        <ClipboardCheck className="size-6 text-primary" />
+        管理員面板
+      </h1>
       <p className="mb-6 text-sm text-muted-foreground">審核預約</p>
 
       {pending.length === 0 ? (
-        <p className="text-sm text-emerald-700">目前沒有待審核的預約。</p>
+        <div className="flex flex-col items-center gap-2 rounded-lg border border-dashed border-border py-12 text-center">
+          <Inbox className="size-8 text-muted-foreground" />
+          <p className="text-sm text-muted-foreground">目前沒有待審核的預約。</p>
+        </div>
       ) : (
-        <div className="flex flex-col divide-y divide-border border-y border-border">
+        <div className="flex flex-col divide-y divide-border rounded-lg border border-border bg-card">
           {pending.map((req) => (
-            <div key={req.id} className="flex flex-wrap items-center justify-between gap-3 py-4">
+            <div
+              key={req.id}
+              className="flex flex-wrap items-center justify-between gap-3 px-4 py-4 transition-colors hover:bg-muted/40"
+            >
               <div className="text-sm">
                 <div className="font-medium">
                   {req.userEmail} — {req.classroomName}
@@ -55,23 +66,19 @@ export default async function AdminDashboardPage({
                   "use server";
                   await setReservationStatus(schoolSlug, req.id, "APPROVED");
                 }}>
-                  <button
-                    type="submit"
-                    className="border border-input px-3 py-1.5 text-sm text-emerald-700 hover:bg-secondary"
-                  >
-                    ✅ 核准
-                  </button>
+                  <Button type="submit" size="sm">
+                    <Check className="size-4" />
+                    核准
+                  </Button>
                 </form>
                 <form action={async () => {
                   "use server";
                   await setReservationStatus(schoolSlug, req.id, "REJECTED");
                 }}>
-                  <button
-                    type="submit"
-                    className="border border-input px-3 py-1.5 text-sm text-destructive hover:bg-secondary"
-                  >
-                    ❌ 拒絕
-                  </button>
+                  <Button type="submit" size="sm" variant="destructive">
+                    <X className="size-4" />
+                    拒絕
+                  </Button>
                 </form>
               </div>
             </div>
@@ -80,14 +87,15 @@ export default async function AdminDashboardPage({
       )}
 
       <hr className="my-8 border-border" />
-      <h2 className="muji-label mb-4">已處理的申請</h2>
+      <h2 className="mb-4 muji-label">已處理的申請</h2>
       {actioned.length === 0 ? (
         <p className="text-sm text-muted-foreground">尚無已處理的申請。</p>
       ) : (
-        <ul className="flex flex-col gap-2 text-sm">
+        <ul className="flex flex-col gap-1 text-sm">
           {actioned.map((r) => (
-            <li key={r.id}>
-              {statusLabel[r.status]} {r.classroomName} — {r.requestDate} (
+            <li key={r.id} className="flex items-center gap-2 rounded-md px-2 py-1.5 hover:bg-muted/40">
+              <span className={`size-1.5 shrink-0 rounded-full ${statusDotClass[r.status]}`} />
+              {r.classroomName} — {r.requestDate} (
               {shortTime(r.startTime)} - {shortTime(r.endTime)}) :{" "}
               <span className="font-medium">{r.status}</span>
             </li>

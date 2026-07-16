@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { Save, Trash2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -27,10 +28,17 @@ export type EventDetail = {
 };
 
 const STATUS_LABEL: Record<string, string> = {
-  APPROVED: "🟢 已核准",
-  PENDING: "🟡 審核中",
-  CANCELLED: "🔴 已取消",
-  REJECTED: "🔴 已拒絕",
+  APPROVED: "已核准",
+  PENDING: "審核中",
+  CANCELLED: "已取消",
+  REJECTED: "已拒絕",
+};
+
+const STATUS_DOT: Record<string, string> = {
+  APPROVED: "bg-status-approved",
+  PENDING: "bg-status-pending",
+  CANCELLED: "bg-muted-foreground",
+  REJECTED: "bg-destructive",
 };
 
 export function EventDetailDialog({
@@ -97,7 +105,10 @@ export function EventDetailDialog({
 
         <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-sm">
           <span className="text-muted-foreground">狀態</span>
-          <span>{STATUS_LABEL[detail.status]}</span>
+          <span className="flex items-center gap-1.5">
+            <span className={`size-1.5 rounded-full ${STATUS_DOT[detail.status]}`} />
+            {STATUS_LABEL[detail.status]}
+          </span>
           <span className="text-muted-foreground">教室</span>
           <span>{detail.classroomName}</span>
           <span className="text-muted-foreground">日期</span>
@@ -170,10 +181,12 @@ export function EventDetailDialog({
 
             <DialogFooter className="gap-2">
               <Button variant="secondary" onClick={handleCancel} disabled={pending}>
-                🗑️ 取消此預約
+                <Trash2 className="size-4" />
+                取消此預約
               </Button>
               <Button onClick={handleSave} disabled={pending}>
-                💾 儲存修改
+                <Save className="size-4" />
+                儲存修改
               </Button>
             </DialogFooter>
           </>

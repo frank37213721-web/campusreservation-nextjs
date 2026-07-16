@@ -163,13 +163,15 @@ export function DashboardCalendar({
         </Select>
       </div>
 
-      <ReservationCalendar
-        events={events}
-        lang="zh"
-        onDateClick={handleDateClick}
-        onEventClick={handleEventClick}
-        onRangeChange={fetchRange}
-      />
+      <div className="card-shadow rounded-lg border border-border bg-card p-4">
+        <ReservationCalendar
+          events={events}
+          lang="zh"
+          onDateClick={handleDateClick}
+          onEventClick={handleEventClick}
+          onRangeChange={fetchRange}
+        />
+      </div>
 
       <NewBookingDialog
         schoolSlug={schoolSlug}
@@ -195,10 +197,18 @@ export function DashboardCalendar({
       {myReservations.length === 0 ? (
         <p className="text-sm text-muted-foreground">目前尚無預約紀錄。</p>
       ) : (
-        <ul className="flex flex-col gap-2 text-sm">
+        <ul className="flex flex-col gap-1 text-sm">
           {myReservations.map((r) => (
-            <li key={r.id}>
-              {r.status === "APPROVED" ? "🟢" : r.status === "PENDING" ? "🟡" : "🔴"}{" "}
+            <li key={r.id} className="flex items-center gap-2 rounded-md px-2 py-1.5 hover:bg-muted/40">
+              <span
+                className={`size-1.5 shrink-0 rounded-full ${
+                  r.status === "APPROVED"
+                    ? "bg-status-approved"
+                    : r.status === "PENDING"
+                      ? "bg-status-pending"
+                      : "bg-destructive"
+                }`}
+              />
               <span className="font-medium">{r.classroomName}</span> : {r.requestDate}{" "}
               {shortTime(r.startTime)}~{shortTime(r.endTime)} | {r.purpose} →{" "}
               <span className="font-medium">{r.status}</span>
